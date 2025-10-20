@@ -1,18 +1,18 @@
 <h1 align="center">
     <br>
-    <img src="https://github.com/v0idsh/pingthing/blob/main/app/icon@500px.png" width="220">
+    <img src="https://github.com/v0idsh/pingthing/blob/main/app/icon@500px.png" width="220" border-radius="20px">
     <br>
     <b>PingThing</b>
     <br>
 </h1>
-<h1 aling="center">
+<div align="center">
     <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=%233178C6&labelColor=white&color=%233178C6">
     <img src="https://img.shields.io/badge/Next.js-black?logo=nextdotjs&logoColor=%23000000&labelColor=white&color=%23000000">
     <img src="https://img.shields.io/badge/Vercel-black?logo=vercel&logoColor=%23000000&labelColor=white&color=%23000000">
     <img src="https://img.shields.io/badge/supabase-black?logo=supabase&logoColor=%233FCF8E&labelColor=grey&color=grey">
     <img src="https://img.shields.io/badge/QStash-black?logo=upstash&logoColor=%2300E9A3&labelColor=grey&color=grey">
     <img src="https://img.shields.io/badge/Discord-black?logo=discord&logoColor=white&labelColor=%235865F2&color=%235865F2">
-</h1>
+</div>
 <br>
 <p align="center">PingThing is a simple and minimal Discord reminder bot with a user-friendly dashboard. It's built with Next.js and Typescript and hosted on Vercel. Everything is made to be straightforward and free to host and run with the given platforms.</p>
 
