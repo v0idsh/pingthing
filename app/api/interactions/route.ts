@@ -51,7 +51,9 @@ export async function POST(req: NextRequest) {
         // For all other requests, verify signature
         const sig = req.headers.get('x-signature-ed25519') || ''
         const ts = req.headers.get('x-signature-timestamp') || ''
+        console.log('Verifying signature:', { sig: sig.substring(0, 10) + '...', ts, bodyType: body.type })
         const ok = verifyDiscordRequest(raw, sig, ts)
+        console.log('Signature verification result:', ok)
         if (!ok) return new NextResponse('bad signature', { status: 401 })
 
 
