@@ -1,11 +1,11 @@
 <h1 align="center">PingThing</h1>
 <div aling="center">
-    <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=%233178C6&labelColor=white&color=%233178C6">
-    <img src="https://img.shields.io/badge/Next.js-black?logo=nextdotjs&logoColor=%23000000&labelColor=white&color=%23000000">
-    <img src="https://img.shields.io/badge/Vercel-black?logo=vercel&logoColor=%23000000&labelColor=white&color=%23000000">
-    <img src="https://img.shields.io/badge/supabase-black?logo=supabase&logoColor=%233FCF8E&labelColor=grey&color=grey">
-    <img src="https://img.shields.io/badge/QStash-black?logo=upstash&logoColor=%2300E9A3&labelColor=grey&color=grey">
-    <img src="https://img.shields.io/badge/Discord-black?logo=discord&logoColor=white&labelColor=%235865F2&color=%235865F2">
+    <img align="center" src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=%233178C6&labelColor=white&color=%233178C6">
+    <img align="center" src="https://img.shields.io/badge/Next.js-black?logo=nextdotjs&logoColor=%23000000&labelColor=white&color=%23000000">
+    <img align="center" src="https://img.shields.io/badge/Vercel-black?logo=vercel&logoColor=%23000000&labelColor=white&color=%23000000">
+    <img align="center" src="https://img.shields.io/badge/supabase-black?logo=supabase&logoColor=%233FCF8E&labelColor=grey&color=grey">
+    <img align="center" src="https://img.shields.io/badge/QStash-black?logo=upstash&logoColor=%2300E9A3&labelColor=grey&color=grey">
+    <img align="center" src="https://img.shields.io/badge/Discord-black?logo=discord&logoColor=white&labelColor=%235865F2&color=%235865F2">
 </div>
 <br>
 <p>PingThing is a simple and self-hosted Discord bot. It's built with Next.js and Typescript and hosted on Vercel.</p>
@@ -44,7 +44,7 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 2. Set up your Discord bot, Supabase and QStash
 3. Make a copy of [.env.example]() and populate the `.env` file with your Environment Variables
 4. `npm install`
-5. `npm run dev`
+5. `npm run dev` to test locally
 6. Deploy on Vercel
 
 ### Discord bot setup
@@ -52,20 +52,22 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 1. Go to https://discord.com/developers/applications
 2. Create New Application 
 3. Inside of the `Bot` tab:
-    > [!NOTE] Leave **Server Members Intent** and **Message Content Intent** unchecked!
-4. Inside the `OAuth` tab:
+    >[!NOTE] Leave **Server Members Intent** and **Message Content Intent** unchecked!
+4. Inside the `OAuth` tab: <br>
     Check the following scopes under URL Generator
     - [x] bot
     - [x] applications.command
+    <br>
     Check the following permissions:
     - [x] Send Messages
     - [x] Embed Links
     - [x] Attach Files
     - [x] Read Message History
     - [x] Use Slash Commands
+    <br>
     At the bottom you'll see a URL. **This is the bot invite link.** Open it in your browser, select your server name, and click 
     Authorize.
-5. Copy all the needed tokens and add them to Vercel or your .env file.
+5. Copy all the needed tokens and add them to Vercel or your `.env` file.
     ```ini
         DISCORD_PUBLIC_KEY= # you'll find it in the General Information page
         DISCORD_APP_ID= # you'll find it in the General Information page
@@ -95,7 +97,7 @@ You can setup the table on supabase with the following sql snippet.
 create index if not exists reminders_next_run_idx on reminders (next_run_at) where active = true;
 ```
 
-> [!IMPORTANT] Then make sure to activate RLS on your table, since we'll only be accessing it through the Service Role Key, bypassing RLS.
+>[!IMPORTANT] Then make sure to activate RLS on your table, since we'll only be accessing it through the Service Role Key, bypassing RLS.
 
 ### Environment Variables
 
