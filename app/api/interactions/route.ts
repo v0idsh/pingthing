@@ -39,17 +39,16 @@ async function readBody(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
     const raw = await readBody(req)
+    const body: DiscordInteraction = JSON.parse(raw.toString())
+
+    // PING - Discord verification request (no signature verification needed)
+    if (body.type === 1) return NextResponse.json({ type: 1 })
+
+    // For all other requests, verify signature
     const sig = req.headers.get('x-signature-ed25519') || ''
     const ts = req.headers.get('x-signature-timestamp') || ''
     const ok = verifyDiscordRequest(raw, sig, ts)
     if (!ok) return new NextResponse('bad signature', { status: 401 })
-
-
-    const body: DiscordInteraction = JSON.parse(raw.toString())
-
-
-    // PING
-    if (body.type === 1) return NextResponse.json({ type: 1 })
 
 
     if (body.type === 2) {
