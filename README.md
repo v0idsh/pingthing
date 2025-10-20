@@ -1,34 +1,20 @@
-<h1 align="center">PingThing</h1>
-<p aling="center">
-    <img align="center" src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=%233178C6&labelColor=white&color=%233178C6">
-    <img align="center" src="https://img.shields.io/badge/Next.js-black?logo=nextdotjs&logoColor=%23000000&labelColor=white&color=%23000000">
-    <img align="center" src="https://img.shields.io/badge/Vercel-black?logo=vercel&logoColor=%23000000&labelColor=white&color=%23000000">
-    <img align="center" src="https://img.shields.io/badge/supabase-black?logo=supabase&logoColor=%233FCF8E&labelColor=grey&color=grey">
-    <img align="center" src="https://img.shields.io/badge/QStash-black?logo=upstash&logoColor=%2300E9A3&labelColor=grey&color=grey">
-    <img align="center" src="https://img.shields.io/badge/Discord-black?logo=discord&logoColor=white&labelColor=%235865F2&color=%235865F2">
-</p>
+<h1 align="center">
+    <br>
+    <img src="https://github.com/v0idsh/pingthing/blob/main/app/icon@500px.png" width="220">
+    <br>
+    <b>PingThing</b>
+    <br>
+</h1>
+<h1 aling="center">
+    <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=%233178C6&labelColor=white&color=%233178C6">
+    <img src="https://img.shields.io/badge/Next.js-black?logo=nextdotjs&logoColor=%23000000&labelColor=white&color=%23000000">
+    <img src="https://img.shields.io/badge/Vercel-black?logo=vercel&logoColor=%23000000&labelColor=white&color=%23000000">
+    <img src="https://img.shields.io/badge/supabase-black?logo=supabase&logoColor=%233FCF8E&labelColor=grey&color=grey">
+    <img src="https://img.shields.io/badge/QStash-black?logo=upstash&logoColor=%2300E9A3&labelColor=grey&color=grey">
+    <img src="https://img.shields.io/badge/Discord-black?logo=discord&logoColor=white&labelColor=%235865F2&color=%235865F2">
+</h1>
 <br>
 <p align="center">PingThing is a simple and minimal Discord reminder bot with a user-friendly dashboard. It's built with Next.js and Typescript and hosted on Vercel. Everything is made to be straightforward and free to host and run with the given platforms.</p>
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Requirements
 
@@ -43,7 +29,7 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 1. Clone repository
 2. Set up your Discord bot and connect it to your server
 3. Set up Supabase and QStash
-3. Make a copy of [.env.example](https://github.com/v0idsh/pingthing/blob/main/.env.example) and populate the `.env` file with your Environment Variables. This is for local testing, and you can also import it into Vercel.
+3. Make a copy of [**.env.example**](https://github.com/v0idsh/pingthing/blob/main/.env.example) and populate the `.env` file with your Environment Variables. This is for local testing, and you can also import it into Vercel.
 4. `npm install`
 5. Register Discord commands with `npx tsx scripts/register-commands.ts`
 5. `npm run dev` to test locally
@@ -51,18 +37,18 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ### Discord bot setup
 
-1. Go to https://discord.com/developers/applications
+1. Go to the [**Discord Dev Portal**](https://discord.com/developers/applications) and login with your Discord account
 2. Create New Application 
 3. Inside of the `Bot` tab -> Leave **Server Members Intent** and **Message Content Intent** unchecked!
 4. Check the following scopes in `OAuth -> URL Generator`
-    - [x] bot
-    - [x] applications.command
+    - [x] **bot**
+    - [x] **applications.command**
 5. Check the following permissions in `OAuth -> URL Generator`
-    - [x] Send Messages
-    - [x] Embed Links
-    - [x] Attach Files
-    - [x] Read Message History
-    - [x] Use Slash Commands
+    - [x] **Send Messages**
+    - [x] **Embed Links**
+    - [x] **Attach Files**
+    - [x] **Read Message History**
+    - [x] **Use Slash Commands**
 
     At the bottom you'll see a URL. **This is the bot invite link.** Open it in your browser, select your server name, and click 
     **Authorize**.
@@ -107,7 +93,7 @@ create index if not exists reminders_next_run_idx on reminders (next_run_at) whe
 
 ### Environment Variables
 
-You can find the example file in [.env.example](https://github.com/v0idsh/pingthing/blob/main/.env.example), just make sure to populate it with your keys.
+You can find the example file in [**.env.example**](https://github.com/v0idsh/pingthing/blob/main/.env.example), just make sure to populate it with your keys.
 
 ```ini
     # Discord bot keys, you can get them from the Discord Dev Portal
@@ -133,8 +119,14 @@ You can find the example file in [.env.example](https://github.com/v0idsh/pingth
 
 ### Discord commands
 
-The bot's slash commands are inside of [./scripts/register-commands.ts](https://github.com/v0idsh/pingthing/blob/main/scripts/register-commands.ts). Feel free to change them if you need, here is a list of the available commands:
+The bot's slash commands are inside of [**./scripts/register-commands.ts**](https://github.com/v0idsh/pingthing/blob/main/scripts/register-commands.ts). Feel free to change them if you need, here is a list of the available commands:
 
 ```commands
 # write commands here
 ```
+
+### Running locally
+
+Run `npm run dev` if you want to test it locally before deploying on Vercel.
+
+Open [**http://localhost:3000**](http://localhost:3000) with your browser to see the result.
