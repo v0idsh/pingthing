@@ -9,22 +9,22 @@
     <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=%233178C6&labelColor=white&color=%233178C6">
     <img src="https://img.shields.io/badge/Next.js-black?logo=nextdotjs&logoColor=%23000000&labelColor=white&color=%23000000">
     <img src="https://img.shields.io/badge/Vercel-black?logo=vercel&logoColor=%23000000&labelColor=white&color=%23000000">
-    <img src="https://img.shields.io/badge/supabase-black?logo=supabase&logoColor=%233FCF8E&labelColor=grey&color=grey">
+    <img src="https://img.shields.io/badge/Supabase-black?logo=supabase&logoColor=%233FCF8E&labelColor=grey&color=grey">
     <img src="https://img.shields.io/badge/QStash-black?logo=upstash&logoColor=%2300E9A3&labelColor=grey&color=grey">
     <img src="https://img.shields.io/badge/Discord-black?logo=discord&logoColor=white&labelColor=%235865F2&color=%235865F2">
 </div>
 <br>
 <p align="center">PingThing is a simple and minimal Discord reminder bot with a user-friendly dashboard. It's built with Next.js and Typescript and hosted on Vercel. Everything is made to be straightforward and free to host and run with the given platforms.</p>
 
-## Requirements
+# Requirements
 
 * Next.js
-* Discord and access to the [Discord Dev Portal](https://discord.com/developers/applications)
-* [Vercel](https://vercel.com/), where the app will be hosted
-* [Supabase](https://supabase.com/) for storage
-* [QStash](https://console.upstash.com/qstash) for scheduling
+* Discord and access to the [**Discord Dev Portal**](https://discord.com/developers/applications)
+* [**Vercel**](https://vercel.com/), where the app will be hosted
+* [**Supabase**](https://supabase.com/) for storage
+* [**QStash**](https://console.upstash.com/qstash) for scheduling
 
-## Setup
+# Setup
 
 1. Clone repository
 2. Set up your Discord bot and connect it to your server
@@ -35,7 +35,7 @@
 5. `npm run dev` to test locally
 6. Deploy on Vercel
 
-### Discord bot setup
+## Discord bot setup
 
 1. Go to the [**Discord Dev Portal**](https://discord.com/developers/applications) and login with your Discord account
 2. Create New Application 
@@ -64,7 +64,7 @@
     # The link is your deployment link + "/api/interactions"
     https://yourappname-alpha.vercel.app/api/interactions
     ```
-### Supabase table setup
+## Supabase table setup
 
 You can setup the table on supabase with the following SQL snippet.
 
@@ -91,7 +91,7 @@ create index if not exists reminders_next_run_idx on reminders (next_run_at) whe
 > [!NOTE]
 > Then make sure to activate RLS on your table, since we'll only be accessing it through the Service Role Key, bypassing RLS.
 
-### Environment Variables
+## Environment Variables
 
 You can find the example file in [**.env.example**](https://github.com/v0idsh/pingthing/blob/main/.env.example), just make sure to populate it with your keys.
 
@@ -117,7 +117,7 @@ You can find the example file in [**.env.example**](https://github.com/v0idsh/pi
     ADMIN_PASSWORD=
 ```
 
-### Discord commands
+## Discord commands
 
 The bot's slash commands are inside of [**./scripts/register-commands.ts**](https://github.com/v0idsh/pingthing/blob/main/scripts/register-commands.ts). Feel free to change them if you need, here is a list of the available commands:
 
@@ -125,7 +125,7 @@ The bot's slash commands are inside of [**./scripts/register-commands.ts**](http
 # write commands here
 ```
 
-### Running locally
+## Running locally
 
 Run `npm run dev` if you want to test it locally before deploying on Vercel.
 
