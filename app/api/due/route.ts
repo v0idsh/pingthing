@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supa, Reminder } from '@/lib/supabase'
+import { supa } from '@/lib/supabase'
 import { postChannelMessage } from '@/lib/discord'
 import { computeNextRun } from '@/lib/schedule'
 import { scheduleAt } from '@/lib/qstash'
@@ -18,7 +18,12 @@ export async function POST(req: NextRequest) {
 
 
     // compute and schedule next
-    const next = computeNextRun({ start: new Date(r.next_run_at), timezone: r.timezone, kind: r.schedule_kind as any, cron: r.cron ?? undefined })
+    const next = computeNextRun({
+        start: new Date(r.next_run_at),
+        timezone: r.timezone,
+        kind: r.schedule_kind as 'none' | 'daily' | 'weekly' | 'monthly' | 'first_friday' | 'cron',
+        cron: r.cron ?? undefined
+    })
     const nextISO = next.toISOString()
     await supa.from('reminders').update({ next_run_at: nextISO }).eq('id', r.id)
     await scheduleAt(`${req.nextUrl.origin}/api/due`, nextISO, { reminderId: r.id })

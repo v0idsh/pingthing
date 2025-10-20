@@ -1,14 +1,10 @@
 import { NextRequest } from 'next/server'
-import crypto from 'crypto'
-
 
 const QSTASH_URL = process.env.QSTASH_URL!
 const QSTASH_TOKEN = process.env.QSTASH_TOKEN!
-const CURRENT = process.env.QSTASH_CURRENT_SIGNING_KEY
-const NEXT = process.env.QSTASH_NEXT_SIGNING_KEY
 
 
-export async function scheduleAt(url: string, atISO: string, body: any) {
+export async function scheduleAt(url: string, atISO: string, body: Record<string, unknown>) {
     const r = await fetch(`${QSTASH_URL}/v1/publish/${encodeURI(url)}`, {
         method: 'POST',
         headers: {

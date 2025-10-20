@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 
 
 function useAdminPassword() {
@@ -14,20 +14,26 @@ function useAdminPassword() {
 
 export default function Dashboard() {
     const { pwd, setPwd } = useAdminPassword()
-    const [items, setItems] = useState<any[]>([])
+    const [items, setItems] = useState<Array<{
+        id: string
+        message: string
+        channel_id: string
+        next_run_at: string
+        schedule_kind: string
+    }>>([])
     const [form, setForm] = useState({
         guild_id: '', channel_id: '', user_id: '', message: '',
         timezone: 'Europe/Madrid', schedule_kind: 'daily', next_run_at: ''
     })
 
 
-    async function load() {
+    const load = useCallback(async () => {
         const r = await fetch('/api/reminders', { headers: { 'x-admin-password': pwd } })
         if (r.ok) {
             const j = await r.json(); setItems(j.data || [])
         } else { setItems([]) }
-    }
-    useEffect(() => { if (pwd) load() }, [pwd])
+    }, [pwd])
+    useEffect(() => { if (pwd) load() }, [pwd, load])
 
 
     async function create() {
@@ -49,7 +55,7 @@ export default function Dashboard() {
             <div className="space-y-4">
                 <h1 className="text-2xl font-semibold">Dashboard Login</h1>
                 <input placeholder="Admin password" className="p-2 rounded w-full" type="password"
-                    onChange={(e) => setPwd(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') { localStorage.setItem('admin_pwd', (e.target as any).value); location.reload() } }} />
+                    onChange={(e) => setPwd(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') { localStorage.setItem('admin_pwd', (e.target as HTMLInputElement).value); location.reload() } }} />
                 <p className="text-sm opacity-70">Press Enter to continue.</p>
             </div>
         )
@@ -83,7 +89,7 @@ export default function Dashboard() {
 
 
             <section className="space-y-2">
-                {items.map((r: any) => (
+                {items.map((r) => (
                     <div key={r.id} className="bg-neutral-900 p-4 rounded-xl flex items-center justify-between">
                         <div>
                             <div className="font-medium">{r.message}</div>

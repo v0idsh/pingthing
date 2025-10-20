@@ -1,7 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { verifyDiscordRequest, DISCORD_PUBLIC_KEY } from '@/lib/discord'
+import { verifyDiscordRequest } from '@/lib/discord'
 import { supa } from '@/lib/supabase'
 import { scheduleAt } from '@/lib/qstash'
+
+type DiscordOption = {
+    name: string
+    value: string | number
+}
+
+type DiscordData = {
+    name: string
+    options?: Array<{
+        name: string
+        options?: DiscordOption[]
+    }>
+}
+
+type DiscordInteraction = {
+    type: number
+    guild_id?: string
+    member?: {
+        user?: {
+            id: string
+        }
+    }
+    data?: DiscordData
+}
 
 
 export const runtime = 'edge'
@@ -21,7 +45,7 @@ export async function POST(req: NextRequest) {
     if (!ok) return new NextResponse('bad signature', { status: 401 })
 
 
-    const body = JSON.parse(raw.toString())
+    const body: DiscordInteraction = JSON.parse(raw.toString())
 
 
     // PING
@@ -32,11 +56,16 @@ export async function POST(req: NextRequest) {
         const guildId = body.guild_id
         const userId = body.member?.user?.id
         const data = body.data
+        if (!data) return new NextResponse('missing data', { status: 400 })
+
         const sub = data.options?.[0]?.name
 
 
         if (data.name === 'remind' && sub === 'create') {
-            const opts = data.options[0].options.reduce((acc: any, o: any) => (acc[o.name] = o.value, acc), {})
+            const opts = data.options?.[0]?.options?.reduce((acc: Record<string, string | number>, o: DiscordOption) => {
+                acc[o.name] = o.value
+                return acc
+            }, {}) || {}
             const { when, repeat, message, channel } = opts
             const tz = process.env.DISCORD_DEFAULT_TZ || 'Europe/Madrid'
             const start = new Date(when)
@@ -75,7 +104,8 @@ export async function POST(req: NextRequest) {
 
 
         if (data.name === 'remind' && sub === 'delete') {
-            const id = data.options[0].options.find((o: any) => o.name === 'id')?.value
+            const id = data.options?.[0]?.options?.find((o: DiscordOption) => o.name === 'id')?.value
+            if (!id) return NextResponse.json({ type: 4, data: { flags: 64, content: 'Missing reminder ID' } })
             await supa.from('reminders').update({ active: false }).eq('id', id)
             return NextResponse.json({ type: 4, data: { flags: 64, content: `Deleted reminder ${id}` } })
         }

@@ -1,4 +1,3 @@
-import crypto from 'crypto'
 import { verifyKey } from 'discord-interactions'
 
 
@@ -30,7 +29,16 @@ export async function postChannelMessage(channelId: string, content: string) {
 
 export type Interaction = {
     type: number
-    data?: any
+    data?: {
+        name: string
+        options?: Array<{
+            name: string
+            options?: Array<{
+                name: string
+                value: string | number
+            }>
+        }>
+    }
     member?: { user?: { id: string } }
     guild_id?: string
 }
