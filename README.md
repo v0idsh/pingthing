@@ -8,7 +8,7 @@
     <img align="center" src="https://img.shields.io/badge/Discord-black?logo=discord&logoColor=white&labelColor=%235865F2&color=%235865F2">
 </div>
 <br>
-<p>PingThing is a simple and self-hosted Discord bot. It's built with Next.js and Typescript and hosted on Vercel.</p>
+<p align="center">PingThing is a simple and self-hosted Discord bot. It's built with Next.js and Typescript and hosted on Vercel.</p>
 
 ## Getting Started
 
@@ -51,20 +51,17 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 1. Go to https://discord.com/developers/applications
 2. Create New Application 
-3. Inside of the `Bot` tab:
-    >[!NOTE] Leave **Server Members Intent** and **Message Content Intent** unchecked!
-4. Inside the `OAuth` tab: <br>
-    Check the following scopes under URL Generator
+3. Inside of the `Bot` tab -> Leave **Server Members Intent** and **Message Content Intent** unchecked!
+4. Check the following scopes in OAuth -> URL Generator:
     - [x] bot
     - [x] applications.command
-    <br>
-    Check the following permissions:
+5. Check the following permissions under the scopes:
     - [x] Send Messages
     - [x] Embed Links
     - [x] Attach Files
     - [x] Read Message History
     - [x] Use Slash Commands
-    <br>
+
     At the bottom you'll see a URL. **This is the bot invite link.** Open it in your browser, select your server name, and click 
     Authorize.
 5. Copy all the needed tokens and add them to Vercel or your `.env` file.
@@ -97,7 +94,7 @@ You can setup the table on supabase with the following sql snippet.
 create index if not exists reminders_next_run_idx on reminders (next_run_at) where active = true;
 ```
 
->[!IMPORTANT] Then make sure to activate RLS on your table, since we'll only be accessing it through the Service Role Key, bypassing RLS.
+>[!NOTE] Then make sure to activate RLS on your table, since we'll only be accessing it through the Service Role Key, bypassing RLS.
 
 ### Environment Variables
 
