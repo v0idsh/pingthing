@@ -1,6 +1,6 @@
 <h1 align="center">
     <br>
-    <img src="https://github.com/v0idsh/pingthing/blob/main/app/icon@500px.png" width="220" border-radius="20px">
+    <img width="3301" height="721" alt="PingThing" src="https://github.com/v0idsh/pingthing/blob/main/app/banner&icon@3x.png">
     <br>
     <b>PingThing</b>
     <br>
@@ -14,7 +14,7 @@
     <img src="https://img.shields.io/badge/Discord-black?logo=discord&logoColor=white&labelColor=%235865F2&color=%235865F2">
 </div>
 <br>
-<p align="center">PingThing is a simple and minimal Discord reminder bot with a user-friendly dashboard. It's built with Next.js and Typescript and hosted on Vercel. Everything is made to be straightforward and free to host and run with the given platforms.</p>
+<p align="center"><b>PingThing</b> is a simple and minimal Discord reminder bot with a user-friendly dashboard. It's built with Next.js and Typescript and hosted on Vercel. Everything is made to be straightforward and free to host and run with the given platforms.</p>
 
 # Requirements
 
