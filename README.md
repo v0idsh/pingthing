@@ -18,21 +18,21 @@
 
 # Requirements
 
-* Next.js
-* Discord and access to the [**Discord Dev Portal**](https://discord.com/developers/applications)
+* [**Discord Dev Portal**](https://discord.com/developers/applications) to configure the bot
 * [**Vercel**](https://vercel.com/), where the app will be hosted
 * [**Supabase**](https://supabase.com/) for storage
 * [**QStash**](https://console.upstash.com/qstash) for scheduling
 
 # Quickstart
 
-1. Clone/fork this repository
-2. Set up your Discord bot and connect it to your server
-3. Set up Supabase and QStash
-3. Make a copy of [**.env.example**](https://github.com/v0idsh/pingthing/blob/main/.env.example) and populate the `.env` file with your Environment Variables. This is for local testing, and you can also import it into Vercel.
+1. Set up your Discord bot and connect it to your server
+2. Set up Supabase and QStash
+3. Clone/fork this repo
 4. `npm install`
-5. `npm run dev` to test locally
-6. Deploy on Vercel
+5. Make a copy of [**.env.example**](https://github.com/v0idsh/pingthing/blob/main/.env.example) and populate the `.env` file with your environment variables.
+6. Register Discord commands with `npx tsx scripts/setup.ts`
+7. `npm run dev` to test locally
+8. Deploy on Vercel
 
 > [!NOTE]
 > Detailed instructions on how to set up the project and configure all platforms can be found in the [**Wiki**](https://github.com/v0idsh/pingthing/wiki/).
@@ -40,9 +40,25 @@
 
 # Usage
 
-```commands
-# write commands here
+The bot allows you to create reminders that will be sent in a specific channel in your server.
+
+To create a reminder, run `/ping create` and attach the following parameters:
+
+- `when` *(required)*: When to send the reminder
+    - Format: ISO or `yyyy-mm-dd hh:mm`
+- `repeat` *(required)*: How often to repeat the reminder
+    - Options: `none`, `daily`, `weekly`, `monthly`
+- `message` *(required)*: The reminder content
+- `channel` *(required)*: Which channel to send the reminder in
+
+Example:
 ```
+/ping create when:2025-10-22 20:00 repeat:daily message:Work out before going to bed! channel:#general
+```
+
+To list all active reminders in the current server, run `/ping list`.
+
+To delete a reminder, run `/ping delete` followed by its specific ID.
 
 # License
 

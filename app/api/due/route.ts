@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     const next = computeNextRun({
         start: new Date(r.next_run_at),
         timezone: r.timezone,
-        kind: r.schedule_kind as 'none' | 'daily' | 'weekly' | 'monthly' | 'first_friday' | 'cron',
+        kind: r.schedule_kind as 'none' | 'daily' | 'weekly' | 'monthly' | 'cron',
         cron: r.cron ?? undefined
     })
     const nextISO = next.toISOString()

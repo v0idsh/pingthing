@@ -4,7 +4,7 @@ import { RRule } from 'rrule'
 export function computeNextRun(opts: {
     start: Date,
     timezone: string,
-    kind: 'none' | 'daily' | 'weekly' | 'monthly' | 'first_friday' | 'cron',
+    kind: 'none' | 'daily' | 'weekly' | 'monthly' | 'cron',
     cron?: string
 }) {
     const start = opts.start
@@ -17,10 +17,6 @@ export function computeNextRun(opts: {
             return addDays(start, 7)
         case 'monthly':
             return addMonths(start, 1)
-        case 'first_friday': {
-            const rule = new RRule({ freq: RRule.MONTHLY, byweekday: [RRule.FR], bysetpos: 1, dtstart: start })
-            return rule.after(start, true)!
-        }
         case 'cron':
             // For brevity, not parsing cron here; recommend later using cron-parser.
             return addDays(start, 1)

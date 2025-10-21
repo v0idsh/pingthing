@@ -11,32 +11,32 @@ if (!APP_ID || !TOKEN) {
 
 const cmds = [
     {
-        name: 'remind',
-        description: 'Reminder commands',
+        name: 'ping',
+        description: 'Create, list, or delete reminders',
         type: 1, // CHAT_INPUT
         options: [
             {
                 type: 1, // SUB_COMMAND
                 name: 'create',
-                description: 'Create a reminder',
+                description: 'Create a new reminder',
                 options: [
-                    { type: 3, name: 'when', description: 'ISO time or yyyy-mm-dd hh:mm', required: true },
-                    { type: 3, name: 'repeat', description: 'none|daily|weekly|monthly|first_friday', required: true },
-                    { type: 3, name: 'message', description: 'Reminder content', required: true },
-                    { type: 7, name: 'channel', description: 'Target channel', required: true }
+                    { type: 3, name: 'when', description: 'When to remind (ISO format or yyyy-mm-dd hh:mm)', required: true },
+                    { type: 3, name: 'repeat', description: 'How often to repeat (none, daily, weekly, monthly)', required: true },
+                    { type: 3, name: 'message', description: 'What to remind about', required: true },
+                    { type: 7, name: 'channel', description: 'Which channel to send the reminder to', required: true }
                 ]
             },
             {
                 type: 1, // SUB_COMMAND
                 name: 'list',
-                description: 'List your reminders'
+                description: 'List all your active reminders'
             },
             {
                 type: 1, // SUB_COMMAND
                 name: 'delete',
-                description: 'Delete by id',
+                description: 'Delete a reminder by its ID',
                 options: [
-                    { type: 3, name: 'id', description: 'Reminder id', required: true }
+                    { type: 3, name: 'id', description: 'The ID of the reminder to delete', required: true }
                 ]
             }
         ]
