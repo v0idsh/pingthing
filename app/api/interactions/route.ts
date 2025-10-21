@@ -3,19 +3,24 @@ import { supa } from '@/lib/supabase'
 import { scheduleAt } from '@/lib/qstash'
 
 export async function POST(req: NextRequest) {
+    console.log('🔔 Discord interaction received')
     try {
         const body = await req.json()
+        console.log('📝 Request body:', JSON.stringify(body, null, 2))
 
         // Handle PING requests (Discord verification)
         if (body.type === 1) {
+            console.log('🏓 PING request - responding with pong')
             return NextResponse.json({ type: 1 })
         }
 
         // Handle slash commands
         if (body.type === 2) {
+            console.log('⚡ Slash command received')
             const guildId = body.guild_id
             const userId = body.member?.user?.id
             const data = body.data
+            console.log('📊 Command data:', { guildId, userId, commandName: data?.name, subCommand: data?.options?.[0]?.name })
 
             if (!data) {
                 return NextResponse.json({
@@ -39,6 +44,7 @@ export async function POST(req: NextRequest) {
                 const start = new Date(when)
 
                 // Save reminder to database
+                console.log('💾 Saving reminder to database:', { guildId, channel, userId, message, repeat, startTime: start.toISOString() })
                 const { data: inserted, error } = await supa
                     .from('reminders')
                     .insert({
@@ -54,6 +60,8 @@ export async function POST(req: NextRequest) {
                     .select('*')
                     .single()
 
+                console.log('💾 Database result:', { inserted, error })
+
                 if (error) {
                     return NextResponse.json({
                         type: 4,
@@ -62,7 +70,9 @@ export async function POST(req: NextRequest) {
                 }
 
                 // Schedule first reminder
+                console.log('⏰ Scheduling reminder with QStash:', { url: `${req.nextUrl.origin}/api/due`, at: start.toISOString(), reminderId: inserted.id })
                 await scheduleAt(`${req.nextUrl.origin}/api/due`, start.toISOString(), { reminderId: inserted.id })
+                console.log('✅ QStash scheduling completed')
 
                 return NextResponse.json({
                     type: 4,
