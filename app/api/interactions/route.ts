@@ -36,7 +36,8 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-    console.log('🔔 Discord interaction received')
+    const startTime = Date.now()
+    console.log('🔔 Discord interaction received at', new Date().toISOString())
     try {
         const bodyText = await req.text()
         console.log('📝 Raw body:', bodyText)
@@ -54,8 +55,12 @@ export async function POST(req: NextRequest) {
 
         // Handle PING requests (Discord verification)
         if (body.type === 1) {
-            console.log('🏓 PING request - responding with pong')
-            return NextResponse.json({ type: 1 })
+            const responseTime = Date.now() - startTime
+            console.log('🏓 PING request - responding with pong (took', responseTime, 'ms)')
+            const response = NextResponse.json({ type: 1 })
+            console.log('📤 Response headers:', Object.fromEntries(response.headers.entries()))
+            console.log('📤 Response body:', { type: 1 })
+            return response
         }
 
         // Handle slash commands
