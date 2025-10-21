@@ -28,7 +28,7 @@ type DiscordInteraction = {
 }
 
 
-export const runtime = 'edge'
+// export const runtime = 'edge' // Commented out - causes Discord verification issues
 
 
 async function readBody(req: NextRequest) {
