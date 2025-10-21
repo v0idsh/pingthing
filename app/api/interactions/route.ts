@@ -26,6 +26,15 @@ function verifyDiscordSignature(req: NextRequest, body: string): boolean {
     }
 }
 
+export async function GET(req: NextRequest) {
+    console.log('🔍 GET request to interactions endpoint')
+    return NextResponse.json({
+        message: 'Discord interactions endpoint is active',
+        status: 'ready',
+        timestamp: new Date().toISOString()
+    })
+}
+
 export async function POST(req: NextRequest) {
     console.log('🔔 Discord interaction received')
     try {

@@ -1,5 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+export async function GET(req: NextRequest) {
+    return NextResponse.json({
+        message: 'Test endpoint is working!',
+        status: 'ready',
+        timestamp: new Date().toISOString()
+    })
+}
+
 export async function POST(req: NextRequest) {
     console.log('🧪 TEST: Discord interaction received')
     try {
