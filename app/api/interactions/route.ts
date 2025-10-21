@@ -1,12 +1,45 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supa } from '@/lib/supabase'
 import { scheduleAt } from '@/lib/qstash'
+import crypto from 'crypto'
+
+// Discord signature verification
+function verifyDiscordSignature(req: NextRequest, body: string): boolean {
+    const signature = req.headers.get('x-signature-ed25519')
+    const timestamp = req.headers.get('x-signature-timestamp')
+    const publicKey = process.env.DISCORD_PUBLIC_KEY!
+
+    if (!signature || !timestamp || !publicKey) {
+        console.log('❌ Missing Discord signature headers')
+        return false
+    }
+
+    try {
+        const message = timestamp + body
+        const key = Buffer.from(publicKey, 'hex')
+        const sig = Buffer.from(signature, 'hex')
+
+        return crypto.verify(null, Buffer.from(message), key, sig)
+    } catch (error) {
+        console.error('❌ Discord signature verification failed:', error)
+        return false
+    }
+}
 
 export async function POST(req: NextRequest) {
     console.log('🔔 Discord interaction received')
     try {
-        const body = await req.json()
-        console.log('📝 Request body:', JSON.stringify(body, null, 2))
+        const bodyText = await req.text()
+        console.log('📝 Raw body:', bodyText)
+
+        // Verify Discord signature
+        if (!verifyDiscordSignature(req, bodyText)) {
+            console.log('❌ Invalid Discord signature')
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+        }
+
+        const body = JSON.parse(bodyText)
+        console.log('📝 Parsed body:', JSON.stringify(body, null, 2))
 
         // Handle PING requests (Discord verification)
         if (body.type === 1) {
