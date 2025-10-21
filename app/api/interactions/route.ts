@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
             // /ping create
             if (data.name === 'ping' && subCommand === 'create') {
                 const options = data.options[0].options || []
-                const opts = options.reduce((acc: Record<string, any>, opt: any) => {
+                const opts = options.reduce((acc: Record<string, string>, opt: { name: string; value: string }) => {
                     acc[opt.name] = opt.value
                     return acc
                 }, {})
@@ -103,7 +103,7 @@ export async function POST(req: NextRequest) {
             // /ping delete
             if (data.name === 'ping' && subCommand === 'delete') {
                 const options = data.options[0].options || []
-                const idOption = options.find((opt: any) => opt.name === 'id')
+                const idOption = options.find((opt: { name: string; value: string }) => opt.name === 'id')
 
                 if (!idOption) {
                     return NextResponse.json({
