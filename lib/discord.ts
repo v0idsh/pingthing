@@ -1,13 +1,21 @@
 import { verifyKey } from 'discord-interactions'
 
 
-export const DISCORD_PUBLIC_KEY = process.env.DISCORD_PUBLIC_KEY!
-export const DISCORD_APP_ID = process.env.DISCORD_APP_ID!
-export const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN!
-
+export const DISCORD_PUBLIC_KEY = process.env.DISCORD_PUBLIC_KEY || ''
+export const DISCORD_APP_ID = process.env.DISCORD_APP_ID || ''
+export const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN || ''
 
 export function verifyDiscordRequest(body: Buffer, signature: string, timestamp: string) {
-    return verifyKey(body, signature, timestamp, DISCORD_PUBLIC_KEY)
+    if (!DISCORD_PUBLIC_KEY) {
+        console.warn('🔐 Missing DISCORD_PUBLIC_KEY — cannot verify Discord request signatures')
+        return false
+    }
+    try {
+        return verifyKey(body, signature, timestamp, DISCORD_PUBLIC_KEY)
+    } catch (err) {
+        console.error('🔐 verifyDiscordRequest error:', err)
+        return false
+    }
 }
 
 
