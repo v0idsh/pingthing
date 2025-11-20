@@ -16,9 +16,6 @@
 <br>
 <p align="center"><b>PingThing</b> is a simple and minimal Discord reminder bot with a user-friendly dashboard. It's built with Next.js and Typescript and hosted on Vercel. Everything is made to be straightforward and free to host and run with the given platforms.</p>
 
-> [!IMPORTANT]
-> WIP, finishing coding
-
 # Requirements
 
 * [**Discord Dev Portal**](https://discord.com/developers/applications) to configure the bot
@@ -45,23 +42,25 @@
 
 The bot allows you to create reminders that will be sent in a specific channel in your server.
 
-To create a reminder, run `/ping create` and attach the following parameters:
+To create a reminder, run `/ping create` with the following parameters:
 
-- `when` *(required)*: When to send the reminder
-    - Format: ISO or `yyyy-mm-dd hh:mm`
-- `repeat` *(required)*: How often to repeat the reminder
-    - Options: `none`, `daily`, `weekly`, `monthly`
-- `message` *(required)*: The reminder content
-- `channel` *(required)*: Which channel to send the reminder in
+- `when`: When to send the reminder
+    - Format: `yyyy-mm-dd hh:mm` for exact dates, or relative time *(in 5 minutes, tomorrow 9am)*
+- `repeat`: How often to repeat the reminder *(none, daily, weekly, monthly)*
+- `message`: The reminder content
+- `channel`: Which channel to send the reminder in
 
 Example:
 ```
-/ping create when:2025-10-22 20:00 repeat:daily message:Work out before going to bed! channel:#general
+/ping create when:tomorrow 9pm repeat:daily message:Work out before going to bed! channel:#general
 ```
 
 To list all active reminders in the current server, run `/ping list`.
 
-To delete a reminder, run `/ping delete` followed by its specific ID.
+To delete a reminder, run `/ping delete` followed by its numeric index in `/ping list`. To delete the first reminder in the list:
+```
+/ping delete 1 
+```
 
 # License
 
