@@ -39,28 +39,25 @@
 
 
 # Usage
+<div align="center>
+<a href="https://github.com/user-attachments/assets/ae232745-2a57-4498-b22e-c1de022e6ec6" target="_blank" rel="noopener">
+<img width="500" alt="Using PingThing with slash commands" src="https://github.com/user-attachments/assets/ae232745-2a57-4498-b22e-c1de022e6ec6" />
+</a></div>
 
-The bot allows you to create reminders that will be sent in a specific channel in your server.
+You can use the bot with **slash commands** directly from Discord.
+* Create a reminder with `/ping create` and the included parameters.
+* List active reminders with `/ping list`.
+* Delete a reminder with `/ping delete` and its index ID.
 
-To create a reminder, run `/ping create` with the following parameters:
-
-- `when`: When to send the reminder
-    - Format: `yyyy-mm-dd hh:mm` for exact dates, or relative time *(in 5 minutes, tomorrow 9am)*
-- `repeat`: How often to repeat the reminder *(none, daily, weekly, monthly)*
-- `message`: The reminder content
-- `channel`: Which channel to send the reminder in
-
-Example:
+Examples:
 ```
-/ping create when:tomorrow 9pm repeat:daily message:Work out before going to bed! channel:#general
+    /ping create when:tomorrow 9pm repeat:daily message:Work out before bed! channel:#general
+    /ping delete 1
 ```
-
-To list all active reminders in the current server, run `/ping list`.
-
-To delete a reminder, run `/ping delete` followed by its numeric index in `/ping list`. To delete the first reminder in the list:
-```
-/ping delete 1 
-```
+> [!IMPORTANT]
+> You can also use the simple dashboard at https://yourapp.vercel.app/dashboard to delete and create reminders. Use the password from your .env file to access it.
+>
+> Detailed usage instructions can be found in the [**Wiki**](https://github.com/v0idsh/pingthing/wiki/)
 
 # License
 
