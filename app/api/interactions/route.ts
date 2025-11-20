@@ -21,10 +21,13 @@ export async function POST(req: NextRequest) {
         const bodyText = await req.text()
         console.log('📝 Raw body:', bodyText)
 
-        // Basic signature verification
+        // Basic signature verification (log header presence for debugging)
         const signature = req.headers.get('x-signature-ed25519') || ''
         const timestamp = req.headers.get('x-signature-timestamp') || ''
+        console.log('🔐 Signature header present:', Boolean(signature), 'len:', signature.length)
+        console.log('🔐 Timestamp header present:', Boolean(timestamp), 'len:', timestamp.length)
         const ok = verifyDiscordRequest(Buffer.from(bodyText), signature, timestamp)
+        console.log('🔐 verifyDiscordRequest result:', ok)
         if (!ok) {
             console.warn('🔐 Discord signature verification failed')
             return new NextResponse('invalid request signature', { status: 401 })
