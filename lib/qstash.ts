@@ -29,13 +29,17 @@ export async function scheduleAt(url: string, atISO: string, body: Record<string
     }
 
     const deltaMs = whenMs - Date.now()
-    if (deltaMs <= 0) {
+    // Allow a small negative tolerance to accommodate clock skew (e.g. 60s).
+    const TOLERANCE_MS = 60_000
+    if (deltaMs <= 0 && Math.abs(deltaMs) > TOLERANCE_MS) {
         const msg = `Scheduled time must be in the future (provided: ${atISO})`
         console.error('❌ QStash error:', msg)
         throw new Error(msg)
     }
 
-    const delaySeconds = Math.max(1, Math.ceil(deltaMs / 1000))
+    // If the time is slightly in the past (within tolerance), schedule immediately.
+    const effectiveDeltaMs = deltaMs > 0 ? deltaMs : 1000
+    const delaySeconds = Math.max(1, Math.ceil(effectiveDeltaMs / 1000))
     const delayHeader = `${delaySeconds}s`
 
     // Try v2 endpoint first (Upstash migrated away from V1). If that fails,
