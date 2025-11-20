@@ -5,13 +5,18 @@ export const DISCORD_PUBLIC_KEY = process.env.DISCORD_PUBLIC_KEY || ''
 export const DISCORD_APP_ID = process.env.DISCORD_APP_ID || ''
 export const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN || ''
 
-export function verifyDiscordRequest(body: Buffer, signature: string, timestamp: string) {
+export async function verifyDiscordRequest(body: Buffer, signature: string, timestamp: string) {
     if (!DISCORD_PUBLIC_KEY) {
         console.warn('🔐 Missing DISCORD_PUBLIC_KEY — cannot verify Discord request signatures')
         return false
     }
     try {
-        return verifyKey(body, signature, timestamp, DISCORD_PUBLIC_KEY)
+        // verifyKey may be sync or async depending on the environment/library version.
+        // Awaiting it covers both cases.
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const res = await verifyKey(body, signature, timestamp, DISCORD_PUBLIC_KEY)
+        return Boolean(res)
     } catch (err) {
         console.error('🔐 verifyDiscordRequest error:', err)
         return false

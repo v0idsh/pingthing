@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
         const timestamp = req.headers.get('x-signature-timestamp') || ''
         console.log('🔐 Signature header present:', Boolean(signature), 'len:', signature.length)
         console.log('🔐 Timestamp header present:', Boolean(timestamp), 'len:', timestamp.length)
-        const ok = verifyDiscordRequest(Buffer.from(bodyText), signature, timestamp)
+        const ok = await verifyDiscordRequest(Buffer.from(bodyText), signature, timestamp)
         console.log('🔐 verifyDiscordRequest result:', ok)
         if (!ok) {
             console.warn('🔐 Discord signature verification failed')
