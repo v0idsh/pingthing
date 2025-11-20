@@ -26,10 +26,9 @@ export default function Home() {
         </div>
         <ol className="font-mono list-inside list-decimal text-sm/6 space-y-2">
           <li>Install dependencies with pnpm and run the setup script.</li>
-          <li>Provision Supabase + QStash and drop the env vars into Railway.</li>
-              <li>Provision Supabase + QStash and add their env vars in Vercel.</li>
-              <li>Set `SITE_URL` in Vercel to your deployed app URL (https://your-app.vercel.app).</li>
-              <li>Point Discord’s interactions endpoint at your Vercel URL.</li>
+          <li>Provision Supabase + QStash and drop the env vars into Vercel.</li>
+          <li>Set `SITE_URL` in Vercel to your deployed app URL (https://your-app.vercel.app).</li>
+          <li>Point Discord’s interactions endpoint at your Vercel URL.</li>
         </ol>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row w-full">
