@@ -1,0 +1,11 @@
+# Manually added pnpm approvals file
+# If Vercel still warns about ignored build scripts, update or remove this file.
+# This lists packages whose lifecycle scripts we trust to run in CI.
+
+approvals:
+  - name: "@tailwindcss/oxide"
+    version: "4.1.14"
+  - name: "sharp"
+    version: "0.34.4"
+  - name: "unrs-resolver"
+    version: "1.11.1"
