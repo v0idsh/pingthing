@@ -14,27 +14,24 @@ export async function GET(req: NextRequest) {
     })
 }
 
+export const runtime = 'nodejs'
+
 export async function POST(req: NextRequest) {
     const startTime = Date.now()
     console.log('🔔 Discord interaction received at', new Date().toISOString())
     try {
         const bodyText = await req.text()
-        console.log('📝 Raw body:', bodyText)
 
-        // Basic signature verification (log header presence for debugging)
+        // Verify the Discord request signature
         const signature = req.headers.get('x-signature-ed25519') || ''
         const timestamp = req.headers.get('x-signature-timestamp') || ''
-        console.log('🔐 Signature header present:', Boolean(signature), 'len:', signature.length)
-        console.log('🔐 Timestamp header present:', Boolean(timestamp), 'len:', timestamp.length)
         const ok = await verifyDiscordRequest(Buffer.from(bodyText), signature, timestamp)
-        console.log('🔐 verifyDiscordRequest result:', ok)
         if (!ok) {
             console.warn('🔐 Discord signature verification failed')
             return new NextResponse('invalid request signature', { status: 401 })
         }
 
         const body = JSON.parse(bodyText)
-        console.log('📝 Parsed body:', JSON.stringify(body, null, 2))
 
         // Handle PING requests (Discord verification)
         if (body.type === 1) {

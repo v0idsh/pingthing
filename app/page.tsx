@@ -14,30 +14,32 @@ export default function Home() {
           priority
         />
         <div className="space-y-4">
-          <h1 className="text-4xl font-semibold tracking-tight">
-            PingThing lives on Render
-          </h1>
-          <p className="text-base text-black/70 dark:text-white/70 leading-6">
-            Slash-command reminders, a Supabase-backed queue, and Upstash QStash
-            scheduling all packaged inside a Next.js app. Deploy the bot, wire
-            up your Discord interactions URL, and manage reminders from the
-            dashboard.
-          </p>
+              <h1 className="text-4xl font-semibold tracking-tight">
+                PingThing — Deploy on Vercel
+              </h1>
+              <p className="text-base text-black/70 dark:text-white/70 leading-6">
+                Slash-command reminders, a Supabase-backed queue, and Upstash QStash
+                scheduling all packaged inside a Next.js app. Deploy the bot on
+                Vercel, set `SITE_URL` to your public URL, wire up your Discord
+                interactions endpoint, and manage reminders from the dashboard.
+              </p>
         </div>
         <ol className="font-mono list-inside list-decimal text-sm/6 space-y-2">
           <li>Install dependencies with pnpm and run the setup script.</li>
           <li>Provision Supabase + QStash and drop the env vars into Railway.</li>
-          <li>Point Discord’s interactions endpoint at your Render URL.</li>
+              <li>Provision Supabase + QStash and add their env vars in Vercel.</li>
+              <li>Set `SITE_URL` in Vercel to your deployed app URL (https://your-app.vercel.app).</li>
+              <li>Point Discord’s interactions endpoint at your Vercel URL.</li>
         </ol>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row w-full">
           <a
             className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto"
-            href="https://dashboard.render.com/"
+                href="https://vercel.com/new"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Deploy on Render
+                Deploy on Vercel
           </a>
           <a
             className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto"
