@@ -5,9 +5,6 @@ import { computeNextRun } from '@/lib/schedule'
 import { scheduleAt } from '@/lib/qstash'
 
 
-export const runtime = 'edge'
-
-
 export async function POST(req: NextRequest) {
     const { reminderId } = await req.json()
     const { data: r } = await supa.from('reminders').select('*').eq('id', reminderId).single()
