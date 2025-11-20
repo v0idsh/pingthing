@@ -5,7 +5,7 @@ import { verifyDiscordRequest } from '@/lib/discord'
 // Verify Discord signatures using Ed25519. If verification fails,
 // respond 401 so Discord can surface the error when registering the URL.
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     console.log('🔍 GET request to interactions endpoint')
     return NextResponse.json({
         message: 'Discord interactions endpoint is active',
