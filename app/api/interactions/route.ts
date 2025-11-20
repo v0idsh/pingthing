@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { parseDate } from 'chrono-node'
 import { supa } from '@/lib/supabase'
 import { scheduleAt } from '@/lib/qstash'
 import { verifyDiscordRequest } from '@/lib/discord'
@@ -70,7 +71,38 @@ export async function POST(req: NextRequest) {
 
                 const { when, repeat, message, channel } = opts
                 const tz = process.env.DISCORD_DEFAULT_TZ || 'Europe/Madrid'
-                const start = new Date(when)
+                if (!when) {
+                    return NextResponse.json({
+                        type: 4,
+                        data: { content: '❌ Missing time value for reminder', flags: 64 }
+                    })
+                }
+
+                // Try strict ISO parse first, then fall back to natural-language parsing
+                let whenMs = Date.parse(when)
+                if (Number.isNaN(whenMs)) {
+                    try {
+                        const parsed = parseDate(when, new Date(), { forwardDate: true })
+                        if (parsed) whenMs = parsed.getTime()
+                    } catch (parseErr) {
+                        console.error('❌ chrono parsing error:', parseErr)
+                    }
+                }
+
+                if (Number.isNaN(whenMs)) {
+                    return NextResponse.json({
+                        type: 4,
+                        data: { content: `❌ Could not understand the time: "${when}"`, flags: 64 }
+                    })
+                }
+
+                const start = new Date(whenMs)
+                if (start.getTime() <= Date.now()) {
+                    return NextResponse.json({
+                        type: 4,
+                        data: { content: `❌ Provided time must be in the future: ${start.toISOString()}`, flags: 64 }
+                    })
+                }
 
                 // Save reminder to database
                 console.log('💾 Saving reminder to database:', { guildId, channel, userId, message, repeat, startTime: start.toISOString() })
@@ -102,16 +134,32 @@ export async function POST(req: NextRequest) {
                 const siteUrl = process.env.SITE_URL || req.nextUrl?.origin || `${req.headers.get('x-forwarded-proto') || 'https'}://${req.headers.get('host')}`
                 const dueUrl = `${siteUrl.replace(/\/$/, '')}/api/due`
                 console.log('⏰ Scheduling reminder with QStash:', { url: dueUrl, at: start.toISOString(), reminderId: inserted.id })
-                await scheduleAt(dueUrl, start.toISOString(), { reminderId: inserted.id })
-                console.log('✅ QStash scheduling completed')
+                try {
+                    await scheduleAt(dueUrl, start.toISOString(), { reminderId: inserted.id })
+                    console.log('✅ QStash scheduling completed')
 
-                return NextResponse.json({
-                    type: 4,
-                    data: {
-                        content: `✅ Reminder created! Will remind in <#${channel}> at ${start.toISOString()} (${repeat})`,
-                        flags: 64
+                    return NextResponse.json({
+                        type: 4,
+                        data: {
+                            content: `✅ Reminder created! Will remind in <#${channel}> at ${start.toISOString()} (${repeat})`,
+                            flags: 64
+                        }
+                    })
+                } catch (err) {
+                    console.error('⚠️ Scheduling failed, cleaning up reminder:', err)
+                    // Attempt to remove the inserted reminder to avoid orphaned rows
+                    try {
+                        await supa.from('reminders').delete().eq('id', inserted.id)
+                    } catch (cleanupErr) {
+                        console.error('❌ Failed to clean up reminder after scheduling error:', cleanupErr)
                     }
-                })
+
+                    const msg = err instanceof Error ? err.message : String(err)
+                    return NextResponse.json({
+                        type: 4,
+                        data: { content: `❌ Failed to schedule reminder: ${msg}`, flags: 64 }
+                    })
+                }
             }
 
             // /ping list
