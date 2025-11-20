@@ -1,7 +1,6 @@
 'use client'
 import { useEffect, useState, useCallback } from 'react'
 
-
 function useAdminPassword() {
     const [pwd, setPwd] = useState('')
     useEffect(() => {
@@ -11,6 +10,19 @@ function useAdminPassword() {
     return { pwd, setPwd }
 }
 
+function shortId(id: string) {
+    return String(id).slice(0, 8)
+}
+
+function relativeTime(dateStr: string) {
+    const diff = Date.parse(dateStr) - Date.now()
+    const sec = Math.round(diff / 1000)
+    if (Math.abs(sec) < 10) return 'in a few seconds'
+    if (sec < 60) return `in ${sec} second${sec === 1 ? '' : 's'}`
+    if (sec < 3600) return `in ${Math.round(sec / 60)} minute${Math.round(sec / 60) === 1 ? '' : 's'}`
+    if (sec < 86400) return `in ${Math.round(sec / 3600)} hour${Math.round(sec / 3600) === 1 ? '' : 's'}`
+    return new Date(dateStr).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+}
 
 export default function Dashboard() {
     const { pwd, setPwd } = useAdminPassword()
@@ -22,8 +34,13 @@ export default function Dashboard() {
         schedule_kind: string
     }>>([])
     const [form, setForm] = useState({
-        guild_id: '', channel_id: '', user_id: '', message: '',
-        timezone: 'Europe/Madrid', schedule_kind: 'daily', next_run_at: ''
+        guild_id: '',
+        channel_id: '',
+        user_id: '',
+        message: '',
+        timezone: 'Europe/Madrid',
+        schedule_kind: 'daily',
+        next_run_at: ''
     })
 
 
@@ -45,6 +62,7 @@ export default function Dashboard() {
         if (r.ok) { setForm({ ...form, message: '' }); load() }
     }
     async function del(id: string) {
+        if (!confirm('Delete this reminder?')) return
         await fetch(`/api/reminders?id=${id}`, { method: 'DELETE', headers: { 'x-admin-password': pwd } })
         load()
     }
@@ -81,21 +99,27 @@ export default function Dashboard() {
                         <option value="monthly">monthly</option>
                         <option value="first_friday">first_friday</option>
                     </select>
-                    <input placeholder="next_run_at (ISO)" className="p-2 rounded" value={form.next_run_at} onChange={e => setForm(f => ({ ...f, next_run_at: e.target.value }))} />
+                    <input placeholder="next_run_at (ISO or natural)" className="p-2 rounded" value={form.next_run_at} onChange={e => setForm(f => ({ ...f, next_run_at: e.target.value }))} />
                     <textarea placeholder="message" className="p-2 rounded col-span-2" value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} />
                 </div>
-                <button className="px-3 py-2 bg-white text-black rounded" onClick={create}>Create</button>
+                <div className="flex gap-2">
+                    <button className="px-3 py-2 bg-white text-black rounded" onClick={create}>Create</button>
+                    <button className="px-3 py-2 bg-zinc-700 text-white rounded" onClick={() => { setForm({ guild_id: '', channel_id: '', user_id: '', message: '', timezone: 'Europe/Madrid', schedule_kind: 'daily', next_run_at: '' }) }}>Clear</button>
+                </div>
             </section>
 
 
             <section className="space-y-2">
-                {items.map((r) => (
+                {items.map((r, idx) => (
                     <div key={r.id} className="bg-neutral-900 p-4 rounded-xl flex items-center justify-between">
                         <div>
                             <div className="font-medium">{r.message}</div>
-                            <div className="text-sm opacity-70">→ #{r.channel_id} • next: {new Date(r.next_run_at).toLocaleString()} • {r.schedule_kind} • {r.id}</div>
+                            <div className="text-sm opacity-70">→ <span className="font-medium">#{r.channel_id}</span> • next: {relativeTime(r.next_run_at)} • {r.schedule_kind} • <span className="font-mono text-xs">{shortId(r.id)}</span></div>
                         </div>
-                        <button className="px-3 py-2 bg-red-500 text-white rounded" onClick={() => del(r.id)}>Delete</button>
+                        <div className="flex items-center gap-2">
+                            <div className="text-sm opacity-70 mr-2">#{idx + 1}</div>
+                            <button className="px-3 py-2 bg-red-500 text-white rounded" onClick={() => del(r.id)}>Delete</button>
+                        </div>
                     </div>
                 ))}
             </section>
