@@ -23,7 +23,7 @@ export async function scheduleAt(url: string, atISO: string, body: Record<string
     const endpoints = [`${QSTASH_URL.replace(/\/$/, '')}/v2/publish/${encodeURI(url)}`,
         `${QSTASH_URL.replace(/\/$/, '')}/v1/publish/${encodeURI(url)}`]
 
-    let lastError: any = null
+    let lastError: unknown = null
     for (const endpoint of endpoints) {
         try {
             const r = await fetch(endpoint, {
@@ -55,7 +55,8 @@ export async function scheduleAt(url: string, atISO: string, body: Record<string
         }
     }
 
-    throw lastError || new Error('QStash scheduling failed for all endpoints')
+    if (lastError instanceof Error) throw lastError
+    throw new Error(String(lastError ?? 'QStash scheduling failed for all endpoints'))
 }
 
 
