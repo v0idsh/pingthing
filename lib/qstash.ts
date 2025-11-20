@@ -17,6 +17,27 @@ export async function scheduleAt(url: string, atISO: string, body: Record<string
         throw new Error(msg)
     }
 
+    // Validate and convert the provided ISO timestamp into a delay duration
+    // Upstash QStash v2 expects a duration (e.g. "30s", "5m", "24h") in
+    // the `Upstash-Delay` header, not an absolute ISO timestamp. Convert the
+    // ISO string to a seconds-based duration relative to now.
+    const whenMs = Date.parse(atISO)
+    if (Number.isNaN(whenMs)) {
+        const msg = `Invalid timestamp provided for scheduling: ${atISO}`
+        console.error('❌ QStash error:', msg)
+        throw new Error(msg)
+    }
+
+    const deltaMs = whenMs - Date.now()
+    if (deltaMs <= 0) {
+        const msg = `Scheduled time must be in the future (provided: ${atISO})`
+        console.error('❌ QStash error:', msg)
+        throw new Error(msg)
+    }
+
+    const delaySeconds = Math.max(1, Math.ceil(deltaMs / 1000))
+    const delayHeader = `${delaySeconds}s`
+
     // Try v2 endpoint first (Upstash migrated away from V1). If that fails,
     // fall back to v1 for compatibility, but log the situation so the user
     // can update their credentials/URL.
@@ -30,7 +51,7 @@ export async function scheduleAt(url: string, atISO: string, body: Record<string
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${QSTASH_TOKEN}`,
-                    'Upstash-Delay': atISO,
+                    'Upstash-Delay': delayHeader,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(body)
