@@ -8,7 +8,7 @@
 <div align="center">
     <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=%233178C6&labelColor=white&color=%233178C6">
     <img src="https://img.shields.io/badge/Next.js-black?logo=nextdotjs&logoColor=%23000000&labelColor=white&color=%23000000">
-    <img src="https://img.shields.io/badge/Railway-black?logo=railway&logoColor=white&labelColor=purple&color=%23000000">
+    <img src="https://img.shields.io/badge/Render-black?logo=render&logoColor=white&labelColor=purple&color=%23000000">
     <img src="https://img.shields.io/badge/Supabase-black?logo=supabase&logoColor=%233FCF8E&labelColor=grey&color=grey">
     <img src="https://img.shields.io/badge/QStash-black?logo=upstash&logoColor=%2300E9A3&labelColor=grey&color=grey">
     <img src="https://img.shields.io/badge/Discord-black?logo=discord&logoColor=white&labelColor=%235865F2&color=%235865F2">
@@ -22,7 +22,7 @@
 # Requirements
 
 * [**Discord Dev Portal**](https://discord.com/developers/applications) to configure the bot
-* [**Railway**](https://railway.com/), where the app will be hosted
+* [**Render**](https://dashboard.render.com/), where the app will be hosted
 * [**Supabase**](https://supabase.com/) for storage
 * [**QStash**](https://console.upstash.com/qstash) for scheduling
 
@@ -35,7 +35,7 @@
 5. Make a copy of [**.env.example**](https://github.com/v0idsh/pingthing/blob/main/.env.example) and populate the `.env` file with your environment variables.
 6. Register Discord commands with `npx tsx scripts/setup.ts`
 7. `npm run dev` to test locally
-8. Deploy on Railway
+8. Deploy on Render
 
 > [!NOTE]
 > Detailed instructions on how to set up the project and configure all platforms can be found in the [**Wiki**](https://github.com/v0idsh/pingthing/wiki/).
