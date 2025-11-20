@@ -6,6 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
+    "start:worker": "node worker/worker.js",
     "lint": "eslint",
     "format": "prettier \"**/*.{ts,tsx,js,jsx,css,md,json}\" --write",
     "check-format": "prettier \"**/*.{ts,tsx,js,jsx,css,md,json}\" --check"
