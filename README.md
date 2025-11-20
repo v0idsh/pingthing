@@ -39,7 +39,7 @@
 
 
 # Usage
-<div align="center>
+<div align="center">
 <a href="https://github.com/user-attachments/assets/ae232745-2a57-4498-b22e-c1de022e6ec6" target="_blank" rel="noopener">
 <img width="500" alt="Using PingThing with slash commands" src="https://github.com/user-attachments/assets/ae232745-2a57-4498-b22e-c1de022e6ec6" />
 </a></div>
