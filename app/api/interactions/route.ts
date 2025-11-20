@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supa } from '@/lib/supabase'
 import { scheduleAt } from '@/lib/qstash'
-// Discord signature verification disabled for now
-// TODO: Implement proper Ed25519 signature verification later
+import { verifyDiscordRequest } from '@/lib/discord'
+// Verify Discord signatures using Ed25519. If verification fails,
+// respond 401 so Discord can surface the error when registering the URL.
 
 export async function GET(req: NextRequest) {
     console.log('🔍 GET request to interactions endpoint')
@@ -20,9 +21,14 @@ export async function POST(req: NextRequest) {
         const bodyText = await req.text()
         console.log('📝 Raw body:', bodyText)
 
-        // Discord signature verification disabled for now
-        // TODO: Implement proper signature verification later
-        console.log('🔐 Skipping signature verification for Discord endpoint setup')
+        // Basic signature verification
+        const signature = req.headers.get('x-signature-ed25519') || ''
+        const timestamp = req.headers.get('x-signature-timestamp') || ''
+        const ok = verifyDiscordRequest(Buffer.from(bodyText), signature, timestamp)
+        if (!ok) {
+            console.warn('🔐 Discord signature verification failed')
+            return new NextResponse('invalid request signature', { status: 401 })
+        }
 
         const body = JSON.parse(bodyText)
         console.log('📝 Parsed body:', JSON.stringify(body, null, 2))
@@ -93,8 +99,10 @@ export async function POST(req: NextRequest) {
                 }
 
                 // Schedule first reminder
-                console.log('⏰ Scheduling reminder with QStash:', { url: `${req.nextUrl.origin}/api/due`, at: start.toISOString(), reminderId: inserted.id })
-                await scheduleAt(`${req.nextUrl.origin}/api/due`, start.toISOString(), { reminderId: inserted.id })
+                const siteUrl = process.env.SITE_URL || req.nextUrl?.origin || `${req.headers.get('x-forwarded-proto') || 'https'}://${req.headers.get('host')}`
+                const dueUrl = `${siteUrl.replace(/\/$/, '')}/api/due`
+                console.log('⏰ Scheduling reminder with QStash:', { url: dueUrl, at: start.toISOString(), reminderId: inserted.id })
+                await scheduleAt(dueUrl, start.toISOString(), { reminderId: inserted.id })
                 console.log('✅ QStash scheduling completed')
 
                 return NextResponse.json({

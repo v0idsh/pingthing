@@ -23,7 +23,9 @@ export async function POST(req: NextRequest) {
     })
     const nextISO = next.toISOString()
     await supa.from('reminders').update({ next_run_at: nextISO }).eq('id', r.id)
-    await scheduleAt(`${req.nextUrl.origin}/api/due`, nextISO, { reminderId: r.id })
+    const siteUrl = process.env.SITE_URL || req.nextUrl?.origin || `${req.headers.get('x-forwarded-proto') || 'https'}://${req.headers.get('host')}`
+    const dueUrl = `${siteUrl.replace(/\/$/, '')}/api/due`
+    await scheduleAt(dueUrl, nextISO, { reminderId: r.id })
 
 
     return NextResponse.json({ ok: true })
