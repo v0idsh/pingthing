@@ -16,6 +16,9 @@
 <br>
 <p align="center"><b>PingThing</b> is a simple and minimal Discord reminder bot with a user-friendly dashboard. It's built with Next.js and Typescript and hosted on Vercel. Everything is made to be straightforward and free to host and run with the given platforms.</p>
 
+> [!NOTE]
+> This is a hobby project where I wanted to learn how to create a simple reminder bot with typescript and host it for free. Right now the project is finished and won't be updated anymore, but feel free to use it for yourself.
+
 # Requirements
 
 * [**Discord Dev Portal**](https://discord.com/developers/applications) to configure the bot
